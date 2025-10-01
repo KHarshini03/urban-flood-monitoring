@@ -1,0 +1,17 @@
+// This is written in ArcGIS Pro.
+// This script counts the points within zones exactly
+
+Water Logging
+var water_log = FeatureSetByName($datastore,'WaterLoggingPoints_C1')
+var countwater_log =  Count(Intersects(water_log,$feature))
+return countwater_log
+
+Overflows
+var overflow = FeatureSetByName($datastore,'mcc_lastone_year_E_Intersect_E')
+var countoverflow =  Count(Intersects(overflow,$feature))
+return countoverflow
+
+Inundation
+var inundation = FeatureSetByname($datastore,'Inundation2020')
+var countinundation =  Count(Intersects(inundation,$feature))
+return countinundation
