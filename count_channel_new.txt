@@ -1,0 +1,14 @@
+// This Arcade script is written in a web map (ArcGIS Portal).
+// The script identifies the overflow points near a channel,
+// which can be used to approximate potential flooding along the channel.
+
+var portal_obj = Portal("");
+var points_fs = FeatureSetByPortalItem(portal_obj, "17f591716abc43c8b6c3db9e35df5de0", 0, ["objectid"], true);
+var buffer_geom = Buffer($feature, 500, "Meters");
+var intersect_points = Intersects(points_fs, buffer_geom);
+var point_ids = [];
+for (var point in intersect_points) {
+    Push(point_ids, point.objectid);
+}
+var count = Count(intersect_points);
+return "Count of overflow points contributing to this channel = " + count + "\nObject IDs: " + Text(point_ids);
