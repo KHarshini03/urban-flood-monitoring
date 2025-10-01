@@ -1,0 +1,22 @@
+//This Arcade script assigns a **priority ranking to points (such as waterlogging, overflow points, and zone areas) by comparing each feature’s attributes against others in the same layer. The priority increases if another feature has a smaller area, or if areas are equal but it has more overflow points or more waterlogging cases.
+
+var currentArea = $feature.Area;
+var currentOverflow = $feature.overflow_points;
+var currentWaterLogging = $feature.water_logging;
+var priority = 1;
+var features = FeatureSetByName($datastore, "YourFeatureLayerName", ["Area", "overflow_points", "water_logging"]);
+for (var f in features) {
+    // Skip the current feature
+    if (f.objected == $feature.objected) {
+        continue;
+    }
+    
+    // Compare the current feature's area, overflow points, and water logging with others
+    if (f.Area < currentArea || 
+       (f.Area == currentArea && f.overflow_points > currentOverflow) || 
+       (f.Area == currentArea && f.overflow_points == currentOverflow && f.water_logging > currentWaterLogging)) {
+        priority += 1; 
+    }
+}
+
+return priority;
